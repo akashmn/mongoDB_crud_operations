@@ -44,7 +44,15 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+    let user = await userModel.findOne({email: req.body.email});
+    if (!user) {
+        return res.status(400).send('something went found');
+    }
     
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
+        res.send(result ? 'Login successful' : 'Invalid credentials');
+    })
+       
 })   
 
 app.get('/logout', (req, res) => {
