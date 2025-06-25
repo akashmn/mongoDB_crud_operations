@@ -39,6 +39,14 @@ app.post('/create', (req, res) => {
   })
 });
 
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', async (req, res) => {
+    
+})   
+
 app.get('/logout', (req, res) => {
   res.cookie('token', "");
   res.redirect('/');
