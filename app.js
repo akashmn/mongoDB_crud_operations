@@ -50,7 +50,13 @@ app.post('/login', async (req, res) => {
     }
     
     bcrypt.compare(req.body.password, user.password, (err, result) => {
-        res.send(result ? 'Login successful' : 'Invalid credentials');
+        if (result) {
+            let token = jwt.sign({email: user.email}, "secretkey")
+            console.log(token);
+            res.send('Login successful');
+        } else {
+            res.status(400).send('Invalid credentials');
+        }
     })
        
 })   
