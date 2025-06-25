@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+const jwt = require('jsonwebtoken');
 
 ////////////////////////routes////////////////////////
 
@@ -29,9 +30,18 @@ app.post('/create', (req, res) => {
         age, 
         password: hash,
     });
+
+    let token = jwt.sign({email}, "secretkey")
+    res.cookie('token', token);
+
     res.send(createdUser);
 });
   })
+});
+
+app.get('/logout', (req, res) => {
+  res.cookie('token', "");
+  res.redirect('/');
 });
 
 
